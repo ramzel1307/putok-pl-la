@@ -1,8 +1,8 @@
 # putok-pl-la
 Lexical Analyzer for Putok Programming Language - A Group Project in COSC 3053 Principles of Programming Language
 
-[MADE FROM SCRATCH]
-This branch contains the code for the Lexical Analyzer of PUTOK Programming Language MADE FROM SCRATCH (not copy pasting code from other codes).
+[COPY AND PASTED CODE FROM DOGE PL]
+This branch contains the code for the Lexical Analyzer of PUTOK Programming Language built from COPY AND PASTING CODE FROM DOGE PL.
 
 To my teammates:
 Let's make use of GitHub for better collaboration.
