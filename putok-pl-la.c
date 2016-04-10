@@ -29,11 +29,33 @@
 #define MAX_KEYWORD_SIZE 8
 #define MAX_RESERVEDWORD_SIZE 8
 
+//Functions
+void loadTokens(void);
+int getFile(void);
+void scanner(void);
+void isRsrvdWrd(char []);
+void isKeyword(char []);
+void isOp(char []);
+void isIden(char []);
+
 //Tokens
 char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE];
 char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE];
 char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE];
-int ctr = 0, ctr1 = 0;
+
+int ctr, ctr1;
+
+/*===========MAIN FUNCTION==========*/
+int main(void){
+
+	loadTokens();
+	int fileFound = getFile();
+	if(fileFound == 0){
+		scanner();	
+	}
+	
+	return 0;
+}
 
 void loadTokens(){
 		
@@ -78,15 +100,17 @@ void loadTokens(){
 				strcpy(keywords[ctr], token);
 				ctr++;
 			}
+			for(ctr = 0; ctr < COUNT_KEYWORDS; ctr++){
+				keywords[ctr][strlen(keywords[ctr])-1]= '\0';
+			}
 		}
 		else{
 			printf("\nError loading tokens! Keywords file not found.\n");
 		}
 		
-		
-		fclose(fRsrvdWrd);
 		fclose(fKeyword);
 		fclose(fOperator);
+		fclose(fRsrvdWrd);
 		
 		return;
 }
@@ -121,6 +145,20 @@ int getFile(){
 	return fileFound;
 }
 
+void scanner(){
+	
+	char line[100];
+	input_file = fopen(filename, "r");
+	while (fgets(line, 100, input_file)){
+		isIden(line);
+		isOp(line);
+		isKeyword(line);
+		isRsrvdWrd(line);
+	}
+	
+	return;
+}
+
 int match(char [], char []);
 
 void isIden(char line[]){
@@ -145,8 +183,15 @@ void isOp(char line[]){
 
 void isKeyword(char line[]){
 	
-	for(ctr = 0; ctr < COUNT_KEYWORDS; ctr++){
-		
+	int matched1;
+	
+	for(ctr = 0; ctr < (COUNT_KEYWORDS*2); ctr++){
+		matched1 = match(line, keywords[ctr]);	
+		if((isalpha(keywords[ctr][0])) && (matched1 != -1)){
+			output_file = fopen(FILENAME_OUTPUT, "a");
+			fprintf(output_file,"Keyword\t\t%s\t\tKeyword\n", keywords[ctr]);
+			fclose(output_file);
+		}
 	}
 	
 	return;
@@ -163,20 +208,6 @@ void isRsrvdWrd(char line[]){
 			fprintf(output_file,"Reserved word\t%s\t\tReserved word\n", reserved_words[ctr]);
 			fclose(output_file);
 		}
-	}
-	
-	return;
-}
-
-void scanner(){
-	
-	char line[100];
-	input_file = fopen(filename, "r");
-	while (fgets(line, 100, input_file)){
-		isIden(line);
-		isOp(line);
-		isKeyword(line);
-		isRsrvdWrd(line);
 	}
 	
 	return;
@@ -209,16 +240,4 @@ int match(char text[], char pattern[]) {
   }
  
   return -1;
-}
-
-/*===========MAIN FUNCTION==========*/
-int main(void){
-
-	loadTokens();
-	int fileFound = getFile();
-	if(fileFound == 0){
-		scanner();	
-	}
-	
-	return 0;
 }

@@ -1,2 +1,17 @@
-dec + int
-word - false
+int i = 0;
+
+if true
+do
+for
++
+-
+else
+dec
+*
+/
+
+while false
+let word
+%
+
+
