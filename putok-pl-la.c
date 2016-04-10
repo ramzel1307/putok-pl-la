@@ -16,6 +16,7 @@
 
 #include<stdio.h>
 #include<string.h>
+#include<ctype.h>
 #include<conio.h>
 #define FILENAME_OUTPUT "output.putok"
 #define FILENAME_OPERATORS "operators.txt"
@@ -32,7 +33,7 @@
 char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE];
 char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE];
 char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE];
-int ctr = 0;
+int ctr = 0, ctr1 = 0;
 
 void loadTokens(){
 		
@@ -49,6 +50,9 @@ void loadTokens(){
 			while(fgets(token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
 				strcpy(reserved_words[ctr], token);
 				ctr++;
+			}
+			for(ctr = 0; ctr < COUNT_RESERVEDWORDS; ctr++){
+				reserved_words[ctr][strlen(reserved_words[ctr])-1]= '\0';
 			}
 		}
 		else{
@@ -117,25 +121,29 @@ int getFile(){
 	return fileFound;
 }
 
-void isIden(char ch[]){
+int match(char [], char []);
+
+void isIden(char line[]){
 	
 	return;
 }
 
-void isOp(char ch[]){
+void isOp(char line[]){
 	
-	for(ctr = 0; ctr < 10; ctr++){
-		if((strncmp(ch, operators[ctr], 1) == 0) && (strncmp(ch, "\n", 1) != 0)){
-			output_file = fopen(FILENAME_OUTPUT, "a");
-			fprintf(output_file,"Operator\t%c\t\tOperator\n", ch[0]);
-			fclose(output_file);
-        }
+	for(ctr = 0; ctr < strlen(line); ctr++){
+		for(ctr1 = ctr; ctr1 < (COUNT_OPERATORS*2); ctr1++){
+			if((line[ctr] == operators[ctr1][0]) && (line[ctr] != '\n')){
+				output_file = fopen(FILENAME_OUTPUT, "a");
+				fprintf(output_file,"Operator\t%c\t\tOperator\n", line[ctr]);
+				
+			}
+		}
 	}
 	
 	return;
 }
 
-void isKeyword(char ch[]){
+void isKeyword(char line[]){
 	
 	for(ctr = 0; ctr < COUNT_KEYWORDS; ctr++){
 		
@@ -144,10 +152,17 @@ void isKeyword(char ch[]){
 	return;
 }
 
-void isRsrvdWrd(char ch[]){
+void isRsrvdWrd(char line[]){
 	
-	for(ctr = 0; ctr < COUNT_RESERVEDWORDS; ctr++){
-		
+	int matched;
+	
+	for(ctr = 0; ctr < (COUNT_RESERVEDWORDS*2); ctr++){
+		matched = match(line, reserved_words[ctr]);	
+		if((isalpha(reserved_words[ctr][0])) && (matched != -1)){
+			output_file = fopen(FILENAME_OUTPUT, "a");
+			fprintf(output_file,"Reserved word\t%s\t\tReserved word\n", reserved_words[ctr]);
+			fclose(output_file);
+		}
 	}
 	
 	return;
@@ -155,16 +170,45 @@ void isRsrvdWrd(char ch[]){
 
 void scanner(){
 	
-	char ch[1];
+	char line[100];
 	input_file = fopen(filename, "r");
-	while ((ch[0] = fgetc(input_file)) != EOF){
-		isIden(ch);
-		isOp(ch);
-		isKeyword(ch);
-		isRsrvdWrd(ch);
+	while (fgets(line, 100, input_file)){
+		isIden(line);
+		isOp(line);
+		isKeyword(line);
+		isRsrvdWrd(line);
 	}
 	
 	return;
+}
+
+int match(char text[], char pattern[]) {
+  int c, d, e, text_length, pattern_length, position = -1;
+ 
+  text_length    = strlen(text);
+  pattern_length = strlen(pattern);
+ 
+  if (pattern_length > text_length) {
+    return -1;
+  }
+ 
+  for (c = 0; c <= text_length - pattern_length; c++) {
+    position = e = c;
+ 
+    for (d = 0; d < pattern_length; d++) {
+      if (pattern[d] == text[e]) {
+        e++;
+      }
+      else {
+        break;
+      }
+    }
+    if (d == pattern_length) {
+      return position;
+    }
+  }
+ 
+  return -1;
 }
 
 /*===========MAIN FUNCTION==========*/

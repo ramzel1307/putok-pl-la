@@ -1,3 +1,8 @@
 TOKEN		LEXEME		DESCRIPTION
 
+Reserved word	int		Reserved word
+Reserved word	dec		Reserved word
+Reserved word	word		Reserved word
+Reserved word	false		Reserved word
 Operator	+		Operator
+Operator	-		Operator

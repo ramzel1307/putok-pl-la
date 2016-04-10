@@ -1,4 +1,2 @@
-+
-/
-*
-+
+dec + int
+word - false
