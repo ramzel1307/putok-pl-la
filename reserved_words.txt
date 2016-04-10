@@ -1,0 +1,6 @@
+int
+let
+word
+true
+false
+dec
