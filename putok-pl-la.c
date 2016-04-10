@@ -28,9 +28,9 @@
 #define MAX_RESERVEDWORD_SIZE 8
 
 //Tokens
-char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE] = {};
-char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE] = {};
-char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE] = {};
+char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE];
+char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE];
+char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE];
 int ctr = 0;
 
 void loadTokens(){
@@ -66,7 +66,7 @@ void loadTokens(){
 			printf("\nError loading tokens! Keywords file not found.\n");
 		}
 		
-		fRsrvdWrd = fopen(FILENAME_RESERVEDWORDS, "r");
+		/*fRsrvdWrd = fopen(FILENAME_RESERVEDWORDS, "r");
 		if(fRsrvdWrd != NULL){
 			ctr = 0;
 			while(fgets(token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
@@ -76,11 +76,11 @@ void loadTokens(){
 		}
 		else{
 			printf("\nError loading tokens! Reserved words file not found.\n");
-		}
+		}*/
 		
-		fclose(fOperator);
-		fclose(fKeyword);
 		fclose(fRsrvdWrd);
+		fclose(fKeyword);
+		fclose(fOperator);
 		
 		return;
 }
@@ -115,28 +115,25 @@ int getFile(){
 	return fileFound;
 }
 
-void isIden(char ch){
+void isIden(char ch[]){
 	
 	return;
 }
 
-void isOp(char ch){
+void isOp(char ch[]){
 	
-	for(ctr = 0; ctr < COUNT_OPERATORS; ctr++){
-		if (strncmp((ch+""), operators[ctr], 1) == 0)
-            {
-            	printf("asd");
-            	getch();
-            	output_file = fopen("output.txt", "a+");
-                fprintf(output_file,"Operator\t%c\t\tOperator\n", ch);
-			    fclose(output_file);
-            }
+	for(ctr = 0; ctr < 10; ctr++){
+		if((strncmp(ch, operators[ctr], 1) == 0) && (strncmp(ch, "\n", 1) != 0)){
+			output_file = fopen("output.txt", "a");
+			fprintf(output_file,"Operator\t%c\t\tOperator\n", ch[0]);
+			fclose(output_file);
+        }
 	}
 	
 	return;
 }
 
-void isKeyword(char ch){
+void isKeyword(char ch[]){
 	
 	for(ctr = 0; ctr < COUNT_KEYWORDS; ctr++){
 		
@@ -145,7 +142,7 @@ void isKeyword(char ch){
 	return;
 }
 
-void isRsrvdWrd(char ch){
+void isRsrvdWrd(char ch[]){
 	
 	for(ctr = 0; ctr < COUNT_RESERVEDWORDS; ctr++){
 		
@@ -156,9 +153,9 @@ void isRsrvdWrd(char ch){
 
 void scanner(){
 	
-	char ch;
+	char ch[1];
 	input_file = fopen(filename, "r");
-	while ((ch = fgetc(input_file)) != EOF){
+	while ((ch[0] = fgetc(input_file)) != EOF){
 		isIden(ch);
 		isOp(ch);
 		isKeyword(ch);

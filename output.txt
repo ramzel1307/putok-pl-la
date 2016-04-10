@@ -1,2 +1,6 @@
 TOKEN		LEXEME		DESCRIPTION
 
+Operator	+		Operator
+Operator	/		Operator
+Operator	*		Operator
+Operator	+		Operator
