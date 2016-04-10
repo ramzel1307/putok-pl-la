@@ -15,7 +15,6 @@
  */
 
 #include<stdio.h>
-#include<conio.h>
 #include<string.h>
 #define FILENAME_OPERATORS "operators.txt"
 #define FILENAME_KEYWORDS "keywords.txt"
@@ -174,7 +173,6 @@ int main(void){
 	if(fileFound){
 		scanner();	
 	}
-
-	getch();
+	
 	return 0;
 }
