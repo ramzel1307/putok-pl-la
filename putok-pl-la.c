@@ -17,12 +17,13 @@
 #include<stdio.h>
 #include<string.h>
 #include<conio.h>
+#define FILENAME_OUTPUT "output.putok"
 #define FILENAME_OPERATORS "operators.txt"
 #define FILENAME_KEYWORDS "keywords.txt"
 #define FILENAME_RESERVEDWORDS "reserved_words.txt"
 #define COUNT_OPERATORS 5
 #define COUNT_KEYWORDS 5
-#define COUNT_RESERVEDWORDS 5
+#define COUNT_RESERVEDWORDS 6
 #define MAX_OPERATOR_SIZE 2
 #define MAX_KEYWORD_SIZE 8
 #define MAX_RESERVEDWORD_SIZE 8
@@ -41,6 +42,18 @@ void loadTokens(){
 		FILE *fOperator;
 		FILE *fKeyword;
 		FILE *fRsrvdWrd;
+		
+		fRsrvdWrd = fopen(FILENAME_RESERVEDWORDS, "r");
+		if(fRsrvdWrd != NULL){
+			ctr = 0;
+			while(fgets(token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
+				strcpy(reserved_words[ctr], token);
+				ctr++;
+			}
+		}
+		else{
+			printf("\nError loading tokens! Reserved words file not found.\n");
+		}
 		
 		fOperator = fopen(FILENAME_OPERATORS, "r");
 		if(fOperator != NULL){
@@ -66,17 +79,6 @@ void loadTokens(){
 			printf("\nError loading tokens! Keywords file not found.\n");
 		}
 		
-		/*fRsrvdWrd = fopen(FILENAME_RESERVEDWORDS, "r");
-		if(fRsrvdWrd != NULL){
-			ctr = 0;
-			while(fgets(token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
-				strcpy(reserved_words[ctr], token);
-				ctr++;
-			}
-		}
-		else{
-			printf("\nError loading tokens! Reserved words file not found.\n");
-		}*/
 		
 		fclose(fRsrvdWrd);
 		fclose(fKeyword);
@@ -96,7 +98,7 @@ int getFile(){
 
 	//Open input and output files
 	input_file = fopen(filename, "r");
-	output_file = fopen("output.txt", "w");
+	output_file = fopen(FILENAME_OUTPUT, "w");
 	fprintf(output_file,"TOKEN\t\tLEXEME\t\tDESCRIPTION\n\n");
 
 	//Terminate if file not found
@@ -124,7 +126,7 @@ void isOp(char ch[]){
 	
 	for(ctr = 0; ctr < 10; ctr++){
 		if((strncmp(ch, operators[ctr], 1) == 0) && (strncmp(ch, "\n", 1) != 0)){
-			output_file = fopen("output.txt", "a");
+			output_file = fopen(FILENAME_OUTPUT, "a");
 			fprintf(output_file,"Operator\t%c\t\tOperator\n", ch[0]);
 			fclose(output_file);
         }
