@@ -16,6 +16,7 @@
 
 #include<stdio.h>
 #include<string.h>
+#include<conio.h>
 #define FILENAME_OPERATORS "operators.txt"
 #define FILENAME_KEYWORDS "keywords.txt"
 #define FILENAME_RESERVEDWORDS "reserved_words.txt"
@@ -122,8 +123,10 @@ void isIden(char ch){
 void isOp(char ch){
 	
 	for(ctr = 0; ctr < COUNT_OPERATORS; ctr++){
-		if ((ch+"") == operators[ctr])
+		if (strncmp((ch+""), operators[ctr], 1) == 0)
             {
+            	printf("asd");
+            	getch();
             	output_file = fopen("output.txt", "a+");
                 fprintf(output_file,"Operator\t%c\t\tOperator\n", ch);
 			    fclose(output_file);
@@ -170,7 +173,7 @@ int main(void){
 
 	loadTokens();
 	int fileFound = getFile();
-	if(fileFound){
+	if(fileFound == 0){
 		scanner();	
 	}
 	
