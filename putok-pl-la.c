@@ -27,27 +27,16 @@
 #define MAX_KEYWORD_SIZE 8
 #define MAX_RESERVEDWORD_SIZE 8
 
-/*===========MAIN FUNCTION==========*/
-int main(void){
-
-	loadTokens();
-	int fileFound = getFile();
-	if(fileFound){
-		scanner();	
-	}
-
-	return 0;
-}
-
 //Tokens
 char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE];
 char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE];
 char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE];
+int ctr = 0;
 
 void loadTokens(){
 		
-		char *token[MAX_KEYWORD_SIZE];
-		int ctr = 0;
+		char token[MAX_KEYWORD_SIZE];
+		ctr = 0;
 		
 		FILE *fOperator;
 		FILE *fKeyword;
@@ -56,7 +45,7 @@ void loadTokens(){
 		fOperator = fopen(FILENAME_OPERATORS, "r");
 		if(fOperator != NULL){
 			ctr = 0;
-			while(fgets(*token, MAX_OPERATOR_SIZE, fOperator)){
+			while(fgets(token, MAX_OPERATOR_SIZE, fOperator)){
 				strcpy(operators[ctr], token);
 				ctr++;
 			}
@@ -68,7 +57,7 @@ void loadTokens(){
 		fKeyword = fopen(FILENAME_KEYWORDS, "r");
 		if(fKeyword != NULL){
 			ctr = 0;
-			while(fgets(*token, MAX_KEYWORD_SIZE, fKeyword)){
+			while(fgets(token, MAX_KEYWORD_SIZE, fKeyword)){
 				strcpy(keywords[ctr], token);
 				ctr++;
 			}
@@ -80,7 +69,7 @@ void loadTokens(){
 		fRsrvdWrd = fopen(FILENAME_RESERVEDWORDS, "r");
 		if(fRsrvdWrd != NULL){
 			ctr = 0;
-			while(fgets(*token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
+			while(fgets(token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
 				strcpy(reserved_words[ctr], token);
 				ctr++;
 			}
@@ -98,10 +87,10 @@ void loadTokens(){
 
 FILE *input_file;
 FILE *output_file;
+char *filename;
 int getFile(){
 		
 	//Get file name
-	char *filename;
 	printf("Enter filename: ");
 	scanf("%s", filename);
 
@@ -126,20 +115,6 @@ int getFile(){
 	return fileFound;
 }
 
-void scanner(){
-	
-	char ch;
-	input_file = fopen(filename, "r");
-	while ((ch = fgetc(input_file)) != EOF){
-		isIden(ch);
-		isOp(ch);
-		isKeyword(ch);
-		isRsrvdWrd(ch);
-	}
-	
-	return;
-}
-
 void isIden(char ch){
 	
 	return;
@@ -148,11 +123,11 @@ void isIden(char ch){
 void isOp(char ch){
 	
 	for(ctr = 0; ctr < COUNT_OPERATORS; ctr++){
-		if (ch == operators[ctr])
+		if ((ch+"") == operators[ctr])
             {
             	output_file = fopen("output.txt", "a+");
                 fprintf(output_file,"Operator\t%c\t\tOperator\n", ch);
-			    fclose(fWrite);
+			    fclose(output_file);
             }
 	}
 	
@@ -175,4 +150,30 @@ void isRsrvdWrd(char ch){
 	}
 	
 	return;
+}
+
+void scanner(){
+	
+	char ch;
+	input_file = fopen(filename, "r");
+	while ((ch = fgetc(input_file)) != EOF){
+		isIden(ch);
+		isOp(ch);
+		isKeyword(ch);
+		isRsrvdWrd(ch);
+	}
+	
+	return;
+}
+
+/*===========MAIN FUNCTION==========*/
+int main(void){
+
+	loadTokens();
+	int fileFound = getFile();
+	if(fileFound){
+		scanner();	
+	}
+
+	return 0;
 }
