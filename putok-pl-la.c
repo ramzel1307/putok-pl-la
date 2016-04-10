@@ -15,16 +15,164 @@
  */
 
 #include<stdio.h>
-#define MAX_NAME_SIZE 256
+#include<conio.h>
+#include<string.h>
+#define FILENAME_OPERATORS "operators.txt"
+#define FILENAME_KEYWORDS "keywords.txt"
+#define FILENAME_RESERVEDWORDS "reserved_words.txt"
+#define COUNT_OPERATORS 5
+#define COUNT_KEYWORDS 5
+#define COUNT_RESERVEDWORDS 5
+#define MAX_OPERATOR_SIZE 2
+#define MAX_KEYWORD_SIZE 8
+#define MAX_RESERVEDWORD_SIZE 8
 
 /*===========MAIN FUNCTION==========*/
 int main(void){
 
-
+	loadTokens();
+	int fileFound = getFile();
+	if(fileFound){
+		scanner();	
+	}
 
 	return 0;
 }
 
-void lexical(){
+//Tokens
+char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE];
+char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE];
+char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE];
 
+void loadTokens(){
+		
+		char *token[MAX_KEYWORD_SIZE];
+		int ctr = 0;
+		
+		FILE *fOperator;
+		FILE *fKeyword;
+		FILE *fRsrvdWrd;
+		
+		fOperator = fopen(FILENAME_OPERATORS, "r");
+		if(fOperator != NULL){
+			ctr = 0;
+			while(fgets(*token, MAX_OPERATOR_SIZE, fOperator)){
+				strcpy(operators[ctr], token);
+				ctr++;
+			}
+		}
+		else{
+			printf("\nError loading tokens! Operators file not found.\n");
+		}
+		
+		fKeyword = fopen(FILENAME_KEYWORDS, "r");
+		if(fKeyword != NULL){
+			ctr = 0;
+			while(fgets(*token, MAX_KEYWORD_SIZE, fKeyword)){
+				strcpy(keywords[ctr], token);
+				ctr++;
+			}
+		}
+		else{
+			printf("\nError loading tokens! Keywords file not found.\n");
+		}
+		
+		fRsrvdWrd = fopen(FILENAME_RESERVEDWORDS, "r");
+		if(fRsrvdWrd != NULL){
+			ctr = 0;
+			while(fgets(*token, MAX_RESERVEDWORD_SIZE, fRsrvdWrd)){
+				strcpy(reserved_words[ctr], token);
+				ctr++;
+			}
+		}
+		else{
+			printf("\nError loading tokens! Reserved words file not found.\n");
+		}
+		
+		fclose(fOperator);
+		fclose(fKeyword);
+		fclose(fRsrvdWrd);
+		
+		return;
+}
+
+FILE *input_file;
+FILE *output_file;
+int getFile(){
+		
+	//Get file name
+	char *filename;
+	printf("Enter filename: ");
+	scanf("%s", filename);
+
+	//Open input and output files
+	input_file = fopen(filename, "r");
+	output_file = fopen("output.txt", "w");
+	fprintf(output_file,"TOKEN\t\tLEXEME\t\tDESCRIPTION\n\n");
+
+	//Terminate if file not found
+	int fileFound = 1;
+	if(input_file){
+		fileFound = 0;
+	}
+	else{
+		printf("\nFile not found!\n");
+		fileFound = 1;
+	}
+	
+	fclose(input_file);
+	fclose(output_file);
+	
+	return fileFound;
+}
+
+void scanner(){
+	
+	char ch;
+	input_file = fopen(filename, "r");
+	while ((ch = fgetc(input_file)) != EOF){
+		isIden(ch);
+		isOp(ch);
+		isKeyword(ch);
+		isRsrvdWrd(ch);
+	}
+	
+	return;
+}
+
+void isIden(char ch){
+	
+	return;
+}
+
+void isOp(char ch){
+	
+	for(ctr = 0; ctr < COUNT_OPERATORS; ctr++){
+		if (ch == operators[ctr])
+            {
+            	output_file = fopen("output.txt", "a+");
+                fprintf(output_file,"Operator\t%c\t\tOperator\n", ch);
+			    fclose(fWrite);
+            }
+	}
+	
+	return;
+}
+
+void isKeyword(char ch){
+	
+	for(ctr = 0; ctr < COUNT_KEYWORDS; ctr++){
+		
+	}
+	
+	return;
+}
+
+void isRsrvdWrd(char ch){
+	
+	for(ctr = 0; ctr < COUNT_RESERVEDWORDS; ctr++){
+		
+	}
+	
+	return;
 }
