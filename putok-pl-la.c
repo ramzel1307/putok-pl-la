@@ -28,9 +28,9 @@
 #define MAX_RESERVEDWORD_SIZE 8
 
 //Tokens
-char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE];
-char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE];
-char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE];
+char operators[COUNT_OPERATORS][MAX_OPERATOR_SIZE] = {};
+char keywords[COUNT_KEYWORDS][MAX_KEYWORD_SIZE] = {};
+char reserved_words[COUNT_RESERVEDWORDS][MAX_RESERVEDWORD_SIZE] = {};
 int ctr = 0;
 
 void loadTokens(){
@@ -87,7 +87,7 @@ void loadTokens(){
 
 FILE *input_file;
 FILE *output_file;
-char *filename;
+char filename[100];
 int getFile(){
 		
 	//Get file name
@@ -175,5 +175,6 @@ int main(void){
 		scanner();	
 	}
 
+	getch();
 	return 0;
 }
