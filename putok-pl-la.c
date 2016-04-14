@@ -22,10 +22,10 @@
 #define FILENAME_OPERATORS "operators.txt"
 #define FILENAME_KEYWORDS "keywords.txt"
 #define FILENAME_RESERVEDWORDS "reserved_words.txt"
-#define COUNT_OPERATORS 5
+#define COUNT_OPERATORS 16
 #define COUNT_KEYWORDS 5
 #define COUNT_RESERVEDWORDS 6
-#define MAX_OPERATOR_SIZE 2
+#define MAX_OPERATOR_SIZE 4
 #define MAX_KEYWORD_SIZE 8
 #define MAX_RESERVEDWORD_SIZE 8
 
@@ -87,6 +87,9 @@ void loadTokens(){
 			while(fgets(token, MAX_OPERATOR_SIZE, fOperator)){
 				strcpy(operators[ctr], token);
 				ctr++;
+			}
+			for(ctr = 0; ctr < COUNT_OPERATORS; ctr++){
+				operators[ctr][strlen(operators[ctr])-1]= '\0';
 			}
 		}
 		else{
@@ -150,10 +153,10 @@ void scanner(){
 	char line[100];
 	input_file = fopen(filename, "r");
 	while (fgets(line, 100, input_file)){
-		isIden(line);
-		isOp(line);
 		isKeyword(line);
 		isRsrvdWrd(line);
+		isIden(line);
+		isOp(line);
 	}
 	
 	return;
@@ -163,18 +166,39 @@ int match(char [], char []);
 
 void isIden(char line[]){
 	
+	for(ctr = 0; ctr < strlen(line); ctr++){
+		if(line[ctr] == '.'){
+			output_file = fopen(FILENAME_OUTPUT, "a");
+			fprintf(output_file,"\nIdentifier\t", line[ctr]);
+
+			do{
+				ctr++;
+				if(line[ctr] == '.'){
+					break;
+				}
+				else{
+					fprintf(output_file,"%c", line[ctr]);
+				}
+			}while(line[ctr] != '.');
+			fprintf(output_file,"\n");
+			fclose(output_file);
+		}
+	}
+	
 	return;
 }
 
 void isOp(char line[]){
 	
-	for(ctr = 0; ctr < strlen(line); ctr++){
-		for(ctr1 = ctr; ctr1 < (COUNT_OPERATORS*2); ctr1++){
-			if((line[ctr] == operators[ctr1][0]) && (line[ctr] != '\n')){
-				output_file = fopen(FILENAME_OUTPUT, "a");
-				fprintf(output_file,"Operator\t%c\t\tOperator\n", line[ctr]);
-				
-			}
+	int matched2;
+	
+	for(ctr = 0; ctr < (COUNT_OPERATORS); ctr++){
+		matched2 = match(line, operators[ctr]);	
+		
+		if(((operators[ctr][0] != '\n') && (operators[ctr][0] != '\t')) && (matched2 != -1)){
+			output_file = fopen(FILENAME_OUTPUT, "a");
+			fprintf(output_file,"Operator\t%s\t\tOperator\n", operators[ctr]);
+			fclose(output_file);
 		}
 	}
 	

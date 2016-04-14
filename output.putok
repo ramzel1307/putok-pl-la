@@ -1,20 +1,25 @@
 TOKEN		LEXEME		DESCRIPTION
 
-Keyword		t		Keyword
-Reserved word	int		Reserved word
-Keyword		if		Keyword
-Keyword		t		Keyword
-Reserved word	true		Reserved word
-Keyword		do		Keyword
-Keyword		for		Keyword
-Keyword		else		Keyword
-Reserved word	dec		Reserved word
-Keyword		while		Keyword
-Reserved word	false		Reserved word
-Keyword		t		Keyword
-Reserved word	let		Reserved word
-Reserved word	word		Reserved word
-Operator	+		Operator
-Operator	*		Operator
-Operator	/		Operator
+Reserved word	WORD		Reserved word
+
+Identifier	color
+Reserved word	WORD		Reserved word
 Operator	%		Operator
+Keyword		IF		Keyword
+
+Identifier	red
+Operator	==		Operator
+Operator	=		Operator
+Keyword		IF		Keyword
+Keyword		ELSE		Keyword
+
+Identifier	yellow
+Operator	==		Operator
+Operator	=		Operator
+Keyword		IF		Keyword
+Keyword		ELSE		Keyword
+
+Identifier	green
+Operator	==		Operator
+Operator	=		Operator
+Keyword		ELSE		Keyword
