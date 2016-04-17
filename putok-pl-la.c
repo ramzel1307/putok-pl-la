@@ -140,6 +140,7 @@ int getFile(){
 	else{
 		printf("\nFile not found!\n");
 		fileFound = 1;
+		getch();
 	}
 	
 	fclose(input_file);
@@ -169,7 +170,7 @@ void isIden(char line[]){
 	for(ctr = 0; ctr < strlen(line); ctr++){
 		if(line[ctr] == '.'){
 			output_file = fopen(FILENAME_OUTPUT, "a");
-			fprintf(output_file,"\nIdentifier\t", line[ctr]);
+			fprintf(output_file,"Identifier\t", line[ctr]);
 
 			do{
 				ctr++;
@@ -195,7 +196,7 @@ void isOp(char line[]){
 	for(ctr = 0; ctr < (COUNT_OPERATORS); ctr++){
 		matched2 = match(line, operators[ctr]);	
 		
-		if(((operators[ctr][0] != '\n') && (operators[ctr][0] != '\t')) && (matched2 != -1)){
+		if((ispunct(operators[ctr][0])) && (matched2 != -1)){
 			output_file = fopen(FILENAME_OUTPUT, "a");
 			fprintf(output_file,"Operator\t%s\t\tOperator\n", operators[ctr]);
 			fclose(output_file);
