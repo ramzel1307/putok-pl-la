@@ -199,6 +199,7 @@ void isOp(char line[]){
 			output_file = fopen(FILENAME_OUTPUT, "a");
 			fprintf(output_file,"Operator\t%s\t\tOperator\n", operators[ctr]);
 			fclose(output_file);
+			break;
 		}
 	}
 	
