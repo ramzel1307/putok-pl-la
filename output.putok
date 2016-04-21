@@ -1,25 +1,10 @@
 TOKEN		LEXEME		DESCRIPTION
 
 Reserved word	WORD		Reserved word
-
-Identifier	color
-Reserved word	WORD		Reserved word
-Operator	%		Operator
-Keyword		IF		Keyword
-
-Identifier	red
-Operator	==		Operator
+Identifier	name
+Identifier	taeyeon
 Operator	=		Operator
-Keyword		IF		Keyword
-Keyword		ELSE		Keyword
-
-Identifier	yellow
-Operator	==		Operator
-Operator	=		Operator
-Keyword		IF		Keyword
-Keyword		ELSE		Keyword
-
-Identifier	green
-Operator	==		Operator
-Operator	=		Operator
-Keyword		ELSE		Keyword
+Reserved word	BAKE		Reserved word
+Identifier	taeyeon
+Reserved word	CHILL		Reserved word
+Identifier	tayeon

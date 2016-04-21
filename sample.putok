@@ -1,0 +1,10 @@
+WORD .color.;
+
+BAKE(%color, %WORD);
+IF(color = .red.)
+CHILL("Stop!");
+ELSE IF (color = .yellow.)
+CHILL("Wait!");
+ELSE IF (color = .green.)
+CHILL("Go!");
+ELSE CHILL("Color not accepted!");

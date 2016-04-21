@@ -1,6 +1,8 @@
-int
-let
-word
-true
-false
-dec
+INT
+LET
+WORD
+TRUE
+FALSE
+DEC
+CHILL
+BAKE

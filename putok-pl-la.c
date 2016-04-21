@@ -24,7 +24,7 @@
 #define FILENAME_RESERVEDWORDS "reserved_words.txt"
 #define COUNT_OPERATORS 16
 #define COUNT_KEYWORDS 5
-#define COUNT_RESERVEDWORDS 6
+#define COUNT_RESERVEDWORDS 8
 #define MAX_OPERATOR_SIZE 4
 #define MAX_KEYWORD_SIZE 8
 #define MAX_RESERVEDWORD_SIZE 8
@@ -53,6 +53,7 @@ int main(void){
 	if(fileFound == 0){
 		scanner();	
 	}
+	system("output.putok");
 	
 	return 0;
 }
